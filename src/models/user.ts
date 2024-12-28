@@ -41,8 +41,9 @@ export const User = mongoose.model(
     lojasVinculadas: {
       type: [String],
       default: []
-    }
+    },
+    
   },
-  { timestamps: false }
+  { timestamps: false, versionKey: false },
   )
 )

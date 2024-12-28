@@ -4,17 +4,7 @@ export enum Funcao {
   ADMINISTRADOR = "ADMINISTRADOR"
 }
 
-export interface ICreateUserRequest {
-  emailAcesso: string,
-  funcao: Funcao,
-  nome: string,
-  responsavel: string,
-  sobrenome: string,
-  gruposVinculados: string[],
-  LojasVinculadas: string[],
-}
-
-export interface IGetUsers {
+export interface IUser {
   ativo: boolean,
   emailAcesso: string,
   funcao: Funcao,
@@ -26,3 +16,11 @@ export interface IGetUsers {
   gruposVinculados: string[],
   LojasVinculadas: string[],
 }
+export type ICreateUserRequest = Omit<IUser, 'ativo' | 'id' | 'linkFoto'>
+  // emailAcesso: string,
+  // funcao: Funcao,
+  // nome: string,
+  // responsavel: string,
+  // sobrenome: string,
+  // gruposVinculados: string[],
+  // LojasVinculadas: string[],

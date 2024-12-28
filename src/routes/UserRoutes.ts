@@ -2,6 +2,8 @@ import { Router } from 'express'
 import { UserCreate } from '../controllers/user/create'
 import { GetUsers } from '../controllers/user/getUsers'
 import { GetParamsList } from './Interfaces/interfaceUserRoute'
+import { GetUserPerID } from '../controllers/user/getUserPerID'
+import { DeleteUserLogic } from '../controllers/user/deleteUserLogic'
 
 const router = Router()
 
@@ -21,6 +23,18 @@ router.get("/get", (req, res) => {
     .then((user) => {
       return res.status(user.code).json(user)
     })
+    .catch(err => res.status(err.code).json(err))
+})
+
+router.get("/get/:id", (req, res) => {
+  GetUserPerID.getUserPerID(req.params.id)
+    .then((user) => res.status(user.code).json(user))
+    .catch(err => res.status(err.code).json(err))
+})
+
+router.delete("/delete/:id", (req, res) => {
+  DeleteUserLogic.deleteUserLogic(req.params.id)
+    .then((user) => res.status(user.code).json(user))
     .catch(err => res.status(err.code).json(err))
 })
 

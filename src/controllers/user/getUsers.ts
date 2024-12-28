@@ -1,15 +1,16 @@
 import { Controller, Get, Route, Tags, Query } from 'tsoa';
 import { User } from '../../models/user';
-import { Funcao, IGetUsers } from '../interfaces/user';
+import { Funcao, IUser } from '../interfaces/user';
 import { SortOrder } from 'mongoose';
 
-type Item = Omit<IGetUsers, "gruposVinculados" | "LojasVinculadas" | "ativo" | "responsavel">
+type Item = Omit<IUser, "gruposVinculados" | "LojasVinculadas" | "ativo" | "responsavel">
 
 interface GetUsersResponse {
   items: Array<Item>
   totalPages: number
   message?: string
   code: number
+  error?: any
 }
 
 @Route('users')
@@ -52,29 +53,39 @@ export class GetUsers extends Controller {
         sortObject[field.trim()] = dir
       });
     }
-    
-    const users = await User.find(filter).sort(sortObject)
 
-    const pageApi = page || 1
-    const limitApi = limit || 10
-    const nextPage = limitApi * (pageApi - 1)
-
-    const list: Array<Item> = users.map(user => ({
-      id: user.id,
-      emailAcesso: user.emailAcesso,
-      funcao: user.funcao as Funcao,
-      linkFoto: user.linkFoto || "",
-      nome: user.nome,
-      sobrenome: user.sobrenome
-    })).slice(nextPage, nextPage + limitApi)
-
-    const totalPages = Math.ceil(list.length / limitApi)
-
-    return {
-      items: list,
-      totalPages: totalPages,
-      message: '',
-      code: 200,
-    };
+    return User.find(filter).sort(sortObject)
+      .then((users) => {
+        const pageApi = page || 1
+        const limitApi = limit || 10
+        const nextPage = limitApi * (pageApi - 1)
+  
+        const list: Array<Item> = users.map(user => ({
+          id: user.id,
+          emailAcesso: user.emailAcesso,
+          funcao: user.funcao as Funcao,
+          linkFoto: user.linkFoto || "",
+          nome: user.nome,
+          sobrenome: user.sobrenome
+        })).slice(nextPage, nextPage + limitApi)
+  
+        const totalPages = Math.ceil(list.length / limitApi)
+  
+        return {
+          items: list,
+          totalPages: totalPages,
+          message: '',
+          code: 200,
+        }
+      })
+      .catch((err) => {
+        return {
+          items: [],
+          totalPages: 0,
+          message: "Erro ao buscar usuários. Conexão não estabelecida com o servidor.",
+          code: 500,
+          error: err
+        }
+      })
   }
 }

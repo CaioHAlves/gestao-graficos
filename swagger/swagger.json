@@ -15,7 +15,74 @@
 				],
 				"type": "string"
 			},
-			"GetUser": {
+			"Pick_IUser.Exclude_keyofIUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel__": {
+				"properties": {
+					"emailAcesso": {
+						"type": "string"
+					},
+					"funcao": {
+						"$ref": "#/components/schemas/Funcao"
+					},
+					"id": {
+						"type": "string"
+					},
+					"linkFoto": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"sobrenome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"emailAcesso",
+					"funcao",
+					"id",
+					"linkFoto",
+					"nome",
+					"sobrenome"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel_": {
+				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Item": {
+				"$ref": "#/components/schemas/Omit_IUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel_"
+			},
+			"GetUsersResponse": {
+				"properties": {
+					"items": {
+						"items": {
+							"$ref": "#/components/schemas/Item"
+						},
+						"type": "array"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"items",
+					"totalPages",
+					"code"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUser": {
 				"properties": {
 					"ativo": {
 						"type": "boolean"
@@ -40,6 +107,18 @@
 					},
 					"sobrenome": {
 						"type": "string"
+					},
+					"gruposVinculados": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"LojasVinculadas": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -50,34 +129,27 @@
 					"linkFoto",
 					"nome",
 					"responsavel",
-					"sobrenome"
+					"sobrenome",
+					"gruposVinculados",
+					"LojasVinculadas"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"GetUsersResponse": {
+			"IResponse": {
 				"properties": {
-					"items": {
-						"items": {
-							"$ref": "#/components/schemas/GetUser"
-						},
-						"type": "array"
-					},
-					"totalPages": {
-						"type": "number",
-						"format": "double"
-					},
 					"message": {
 						"type": "string"
 					},
 					"code": {
 						"type": "number",
 						"format": "double"
+					},
+					"user": {
+						"$ref": "#/components/schemas/IUser"
 					}
 				},
 				"required": [
-					"items",
-					"totalPages",
 					"code"
 				],
 				"type": "object",
@@ -91,6 +163,9 @@
 					"code": {
 						"type": "number",
 						"format": "double"
+					},
+					"idUsuario": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -99,8 +174,23 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"CreateUserRequest": {
+			"Pick_IUser.Exclude_keyofIUser.ativo-or-id-or-linkFoto__": {
 				"properties": {
+					"gruposVinculados": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"LojasVinculadas": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"responsavel": {
+						"type": "string"
+					},
 					"emailAcesso": {
 						"type": "string"
 					},
@@ -110,22 +200,28 @@
 					"nome": {
 						"type": "string"
 					},
-					"responsavel": {
-						"type": "string"
-					},
 					"sobrenome": {
 						"type": "string"
 					}
 				},
 				"required": [
+					"gruposVinculados",
+					"LojasVinculadas",
+					"responsavel",
 					"emailAcesso",
 					"funcao",
 					"nome",
-					"responsavel",
 					"sobrenome"
 				],
 				"type": "object",
-				"additionalProperties": false
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IUser.ativo-or-id-or-linkFoto_": {
+				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.ativo-or-id-or-linkFoto__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"ICreateUserRequest": {
+				"$ref": "#/components/schemas/Omit_IUser.ativo-or-id-or-linkFoto_"
 			}
 		},
 		"securitySchemes": {}
@@ -235,6 +331,81 @@
 				]
 			}
 		},
+		"/users/get/{id}": {
+			"get": {
+				"operationId": "GetUserPerID",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/delete/{id}": {
+			"delete": {
+				"operationId": "DeleteUserLogic",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"code": {
+											"type": "number",
+											"format": "double"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"code",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/users/create": {
 			"post": {
 				"operationId": "Create",
@@ -260,7 +431,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/CreateUserRequest"
+								"$ref": "#/components/schemas/ICreateUserRequest"
 							}
 						}
 					}

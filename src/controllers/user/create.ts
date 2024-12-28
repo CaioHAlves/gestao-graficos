@@ -6,6 +6,7 @@ interface CreateUserResponse {
   message?: string
   code: number
   idUsuario?: string
+  error?: any
 }
 
 @Route("users")
@@ -43,10 +44,10 @@ export class UserCreate extends Controller {
         }
       })
       .catch((err) => {
-        console.log(err)
         return {
           message: "Erro ao criar usuario",
-          code: 422
+          code: 422,
+          error: err
         }
       })
   }
