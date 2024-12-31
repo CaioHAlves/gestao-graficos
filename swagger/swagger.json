@@ -15,16 +15,114 @@
 				],
 				"type": "string"
 			},
-			"Pick_IUser.Exclude_keyofIUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel__": {
+			"Pick_IUser.Exclude_keyofIUser.id__": {
 				"properties": {
+					"ativo": {
+						"type": "boolean"
+					},
 					"emailAcesso": {
 						"type": "string"
 					},
 					"funcao": {
 						"$ref": "#/components/schemas/Funcao"
 					},
+					"linkFoto": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"responsavel": {
+						"properties": {
+							"nome": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"nome",
+							"id"
+						],
+						"type": "object"
+					},
+					"sobrenome": {
+						"type": "string"
+					},
+					"gruposVinculados": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"LojasVinculadas": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"ativo",
+					"emailAcesso",
+					"funcao",
+					"linkFoto",
+					"nome",
+					"responsavel",
+					"sobrenome",
+					"gruposVinculados",
+					"LojasVinculadas"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_IUser.id_": {
+				"$ref": "#/components/schemas/Pick_IUser.Exclude_keyofIUser.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"UpdateUserRequest": {
+				"$ref": "#/components/schemas/Omit_IUser.id_"
+			},
+			"Response__user_63_-UpdateUserRequest__": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"user": {
+										"$ref": "#/components/schemas/UpdateUserRequest"
+									}
+								},
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
+			},
+			"Pick_IUser.Exclude_keyofIUser.gruposVinculados-or-LojasVinculadas-or-ativo-or-responsavel__": {
+				"properties": {
 					"id": {
 						"type": "string"
+					},
+					"emailAcesso": {
+						"type": "string"
+					},
+					"funcao": {
+						"$ref": "#/components/schemas/Funcao"
 					},
 					"linkFoto": {
 						"type": "string"
@@ -37,9 +135,9 @@
 					}
 				},
 				"required": [
+					"id",
 					"emailAcesso",
 					"funcao",
-					"id",
 					"linkFoto",
 					"nome",
 					"sobrenome"
@@ -65,22 +163,38 @@
 					"totalPages": {
 						"type": "number",
 						"format": "double"
-					},
-					"message": {
-						"type": "string"
-					},
-					"code": {
-						"type": "number",
-						"format": "double"
 					}
 				},
 				"required": [
 					"items",
-					"totalPages",
-					"code"
+					"totalPages"
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Response_GetUsersResponse_": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"$ref": "#/components/schemas/GetUsersResponse"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
 			},
 			"IUser": {
 				"properties": {
@@ -103,7 +217,19 @@
 						"type": "string"
 					},
 					"responsavel": {
-						"type": "string"
+						"properties": {
+							"nome": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"nome",
+							"id"
+						],
+						"type": "object"
 					},
 					"sobrenome": {
 						"type": "string"
@@ -136,46 +262,115 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"IResponse": {
+			"Response__user_63_-IUser__": {
 				"properties": {
-					"message": {
-						"type": "string"
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"user": {
+										"$ref": "#/components/schemas/IUser"
+									}
+								},
+								"type": "object"
+							},
+							{}
+						]
 					},
 					"code": {
 						"type": "number",
 						"format": "double"
 					},
-					"user": {
-						"$ref": "#/components/schemas/IUser"
+					"message": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"code"
 				],
-				"type": "object",
-				"additionalProperties": false
+				"type": "object"
 			},
-			"CreateUserResponse": {
+			"Response": {
 				"properties": {
-					"message": {
-						"type": "string"
+					"error": {},
+					"data": {
+						"nullable": true
 					},
 					"code": {
 						"type": "number",
 						"format": "double"
 					},
-					"idUsuario": {
+					"message": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"code"
 				],
-				"type": "object",
-				"additionalProperties": false
+				"type": "object"
+			},
+			"Response__idUsuario-string__": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"idUsuario": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"idUsuario"
+								],
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
 			},
 			"Pick_IUser.Exclude_keyofIUser.ativo-or-id-or-linkFoto__": {
 				"properties": {
+					"emailAcesso": {
+						"type": "string"
+					},
+					"funcao": {
+						"$ref": "#/components/schemas/Funcao"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"responsavel": {
+						"properties": {
+							"nome": {
+								"type": "string"
+							},
+							"id": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"nome",
+							"id"
+						],
+						"type": "object"
+					},
+					"sobrenome": {
+						"type": "string"
+					},
 					"gruposVinculados": {
 						"items": {
 							"type": "string"
@@ -187,31 +382,16 @@
 							"type": "string"
 						},
 						"type": "array"
-					},
-					"responsavel": {
-						"type": "string"
-					},
-					"emailAcesso": {
-						"type": "string"
-					},
-					"funcao": {
-						"$ref": "#/components/schemas/Funcao"
-					},
-					"nome": {
-						"type": "string"
-					},
-					"sobrenome": {
-						"type": "string"
 					}
 				},
 				"required": [
-					"gruposVinculados",
-					"LojasVinculadas",
-					"responsavel",
 					"emailAcesso",
 					"funcao",
 					"nome",
-					"sobrenome"
+					"responsavel",
+					"sobrenome",
+					"gruposVinculados",
+					"LojasVinculadas"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -222,6 +402,70 @@
 			},
 			"ICreateUserRequest": {
 				"$ref": "#/components/schemas/Omit_IUser.ativo-or-id-or-linkFoto_"
+			},
+			"Response__id-string__": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"id": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
+			},
+			"IGroups": {
+				"properties": {
+					"nomeGrupo": {
+						"type": "string"
+					},
+					"codGrupo": {
+						"type": "string"
+					},
+					"responsavel": {
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"nome": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"id",
+							"nome"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"nomeGrupo",
+					"codGrupo",
+					"responsavel"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -238,6 +482,47 @@
 		}
 	},
 	"paths": {
+		"/users/patch/{id}": {
+			"patch": {
+				"operationId": "Patch",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__user_63_-UpdateUserRequest__"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/users/get": {
 			"get": {
 				"operationId": "GetUsers",
@@ -247,7 +532,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/GetUsersResponse"
+									"$ref": "#/components/schemas/Response_GetUsersResponse_"
 								}
 							}
 						}
@@ -340,7 +625,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/IResponse"
+									"$ref": "#/components/schemas/Response__user_63_-IUser__"
 								}
 							}
 						}
@@ -371,20 +656,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"code": {
-											"type": "number",
-											"format": "double"
-										},
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": [
-										"code",
-										"message"
-									],
-									"type": "object"
+									"$ref": "#/components/schemas/Response"
 								}
 							}
 						}
@@ -415,7 +687,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/CreateUserResponse"
+									"$ref": "#/components/schemas/Response__idUsuario-string__"
 								}
 							}
 						}
@@ -432,6 +704,38 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/ICreateUserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/groups/create": {
+			"post": {
+				"operationId": "PostGroup",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__id-string__"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Groups"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IGroups"
 							}
 						}
 					}

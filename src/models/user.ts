@@ -20,7 +20,17 @@ export const User = mongoose.model(
       required: true
     },
     responsavel: {
-      type: String,
+      type: {
+        id: {
+          type: String,
+          require: true
+        },
+        nome: {
+          type: String,
+          require: true
+        }
+      },
+      _id: false,
       required: true
     },
     sobrenome: {
@@ -41,8 +51,7 @@ export const User = mongoose.model(
     lojasVinculadas: {
       type: [String],
       default: []
-    },
-    
+    }
   },
   { timestamps: false, versionKey: false },
   )

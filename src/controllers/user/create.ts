@@ -1,19 +1,13 @@
 import { Controller, Post, Body, Route, Tags } from 'tsoa'
 import { User } from '../../models/user'
 import { ICreateUserRequest } from '../interfaces/user'
-
-interface CreateUserResponse {
-  message?: string
-  code: number
-  idUsuario?: string
-  error?: any
-}
+import { Response } from '../interfaces/response'
 
 @Route("users")
 @Tags("Users")
 export class UserCreate extends Controller {
   @Post('/create')
-  static async create(@Body() body: ICreateUserRequest): Promise<CreateUserResponse> {
+  static async create(@Body() body: ICreateUserRequest): Promise<Response<{ idUsuario: string }>> {
     
     const { emailAcesso } = body
 

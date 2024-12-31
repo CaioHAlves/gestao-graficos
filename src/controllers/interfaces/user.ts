@@ -11,16 +11,14 @@ export interface IUser {
   id: string,
   linkFoto: string,
   nome: string,
-  responsavel: string,
+  responsavel: {
+    id: string,
+    nome: string
+  },
   sobrenome: string,
   gruposVinculados: string[],
   LojasVinculadas: string[],
 }
 export type ICreateUserRequest = Omit<IUser, 'ativo' | 'id' | 'linkFoto'>
-  // emailAcesso: string,
-  // funcao: Funcao,
-  // nome: string,
-  // responsavel: string,
-  // sobrenome: string,
-  // gruposVinculados: string[],
-  // LojasVinculadas: string[],
+
+export type UpdateUserRequest = Omit<IUser, 'id'>

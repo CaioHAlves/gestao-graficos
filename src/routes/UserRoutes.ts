@@ -4,6 +4,7 @@ import { GetUsers } from '../controllers/user/getUsers'
 import { GetParamsList } from './Interfaces/interfaceUserRoute'
 import { GetUserPerID } from '../controllers/user/getUserPerID'
 import { DeleteUserLogic } from '../controllers/user/deleteUserLogic'
+import { UserPatch } from '../controllers/user/patch'
 
 const router = Router()
 
@@ -35,6 +36,12 @@ router.get("/get/:id", (req, res) => {
 router.delete("/delete/:id", (req, res) => {
   DeleteUserLogic.deleteUserLogic(req.params.id)
     .then((user) => res.status(user.code).json(user))
+    .catch(err => res.status(err.code).json(err))
+})
+
+router.patch("/patch/:id", (req, res) => {
+  UserPatch.patch(req.params.id, req.body)
+    .then(user => res.status(user.code).json(user))
     .catch(err => res.status(err.code).json(err))
 })
 

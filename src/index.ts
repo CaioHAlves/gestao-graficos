@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerConfig from '../swagger/swagger.json'
 
 import UserRoutes from './routes/UserRoutes'
+import GroupsRoutes from './routes/GroupsRoutes'
 
 const whitelist: Array<string | undefined> = []
 const port = Number(process.env.PORT!)
@@ -25,6 +26,7 @@ app.use(cors({
 }))
 
 app.use("/users", UserRoutes)
+app.use("/groups", GroupsRoutes)
 
 // Block swagger in production 
 if (process.env.AMBIENT !== "production") {

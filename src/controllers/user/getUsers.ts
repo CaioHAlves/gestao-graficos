@@ -2,15 +2,13 @@ import { Controller, Get, Route, Tags, Query } from 'tsoa';
 import { User } from '../../models/user';
 import { Funcao, IUser } from '../interfaces/user';
 import { SortOrder } from 'mongoose';
+import { Response } from '../interfaces/response';
 
 type Item = Omit<IUser, "gruposVinculados" | "LojasVinculadas" | "ativo" | "responsavel">
 
 interface GetUsersResponse {
   items: Array<Item>
   totalPages: number
-  message?: string
-  code: number
-  error?: any
 }
 
 @Route('users')
@@ -26,7 +24,7 @@ export class GetUsers extends Controller {
     @Query() ativo?: boolean,
     @Query() sort?: string,
     @Query() direction?: 'asc' | 'desc'
-  ): Promise<GetUsersResponse> {
+  ): Promise<Response<GetUsersResponse>> {
 
     let filter: { [key: string]: string | Funcao | boolean } = {}
 

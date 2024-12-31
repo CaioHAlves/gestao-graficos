@@ -1,11 +1,12 @@
 import { Path, Route, Delete, Controller, Tags } from 'tsoa'
 import { User } from '../../models/user'
+import { Response } from '../interfaces/response'
 
 @Route('users')
 @Tags('Users')
 export class DeleteUserLogic extends Controller {
   @Delete('/delete/{id}')
-  static async deleteUserLogic(@Path() id: string): Promise<{ message: string, code: number, error?: any }> {
+  static async deleteUserLogic(@Path() id: string): Promise<Response> {
     return User.findOneAndUpdate({ _id: id }, { ativo: false })
       .then((user) => {
         if (!user) {
