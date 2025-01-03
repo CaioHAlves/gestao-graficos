@@ -2,14 +2,14 @@ import mongoose from "../db/conn"
 
 const { Schema } = mongoose
 
-export const Groups = mongoose.model(
-  'Groups',
+export const Stores = mongoose.model(
+  'Stores',
   new Schema({
-    nomeGrupo: {
+    nomeLoja: {
       type: String,
       require: true
     },
-    codGrupo: {
+    codLoja: {
       type: String,
       require: true
     },
@@ -27,13 +27,13 @@ export const Groups = mongoose.model(
       _id: false,
       require: true
     },
-    lojasVinculadas: {
+    gruposVinculados: {
       type: [{
-        nomeLoja: {
+        nomeGrupo: {
           type: String,
           require: true
         },
-        codLoja: {
+        codGrupo: {
           type: String,
           require: true
         },

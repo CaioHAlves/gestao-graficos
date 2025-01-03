@@ -435,6 +435,60 @@
 				],
 				"type": "object"
 			},
+			"IStores": {
+				"properties": {
+					"nomeLoja": {
+						"type": "string"
+					},
+					"codLoja": {
+						"type": "string"
+					},
+					"responsavel": {
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"nome": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"id",
+							"nome"
+						],
+						"type": "object"
+					},
+					"gruposVinculados": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "string"
+								},
+								"codGrupo": {
+									"type": "string"
+								},
+								"nomeGrupo": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"id",
+								"codGrupo",
+								"nomeGrupo"
+							],
+							"type": "object"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"nomeLoja",
+					"codLoja",
+					"responsavel"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IGroups": {
 				"properties": {
 					"nomeGrupo": {
@@ -457,6 +511,28 @@
 							"nome"
 						],
 						"type": "object"
+					},
+					"lojasVinculadas": {
+						"items": {
+							"properties": {
+								"id": {
+									"type": "string"
+								},
+								"codLoja": {
+									"type": "string"
+								},
+								"nomeLoja": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"id",
+								"codLoja",
+								"nomeLoja"
+							],
+							"type": "object"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -466,6 +542,35 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Response__group_63_-IGroups__": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"group": {
+										"$ref": "#/components/schemas/IGroups"
+									}
+								},
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
 			}
 		},
 		"securitySchemes": {}
@@ -710,6 +815,38 @@
 				}
 			}
 		},
+		"/stores/create": {
+			"post": {
+				"operationId": "PostStores",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__id-string__"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Stores"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IStores"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/groups/create": {
 			"post": {
 				"operationId": "PostGroup",
@@ -730,6 +867,47 @@
 				],
 				"security": [],
 				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IGroups"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/groups/patch/{id}": {
+			"patch": {
+				"operationId": "PatchGroups",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__group_63_-IGroups__"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Groups"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
 				"requestBody": {
 					"required": true,
 					"content": {

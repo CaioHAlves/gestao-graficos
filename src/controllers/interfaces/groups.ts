@@ -5,4 +5,9 @@ export interface IGroups {
     nome: string
     id: string
   }
+  lojasVinculadas?: Array<{
+    nomeLoja: string
+    codLoja: string
+    id: string
+  }>
 }
