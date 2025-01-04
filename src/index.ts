@@ -32,7 +32,15 @@ app.use("/stores", StoresRoutes)
 
 // Block swagger in production 
 if (process.env.AMBIENT !== "production") {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig, {
+    swaggerOptions: {
+      defaultModelsExpandDepth: -1,
+      tagsSorter: "alpha",
+      version: 3,
+      docExpansion: "none",
+      syntaxHighlight: false
+    }
+  }));
 }
 
 app.listen(port, "0.0.0.0", () => {
