@@ -32,7 +32,7 @@ export class UserPatch extends Controller {
               code: 500,
               message: "Erro ao atualizar usuário",
               error: err
-            }    
+            }
           })
       })
       .catch(err => {

@@ -11,13 +11,13 @@ export class UserCreate extends Controller {
     
     const { emailAcesso } = body
 
-    const existUser = await User.findOne({ emailAcesso })
+    const existUser = await User.find({ emailAcesso })
 
     if (!emailAcesso) {
       return { message: "Um email é necessário para realizar o cadastro", code: 422 }
     }
 
-    if (existUser && existUser.emailAcesso === emailAcesso) {
+    if (existUser.length > 0 && existUser[0].emailAcesso === emailAcesso) {
       return { message: "Já existe usuário com esse email", code: 422 }
     }
 

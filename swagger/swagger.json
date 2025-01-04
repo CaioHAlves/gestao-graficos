@@ -489,6 +489,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Response__store-IStores__": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"store": {
+										"$ref": "#/components/schemas/IStores"
+									}
+								},
+								"required": [
+									"store"
+								],
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
+			},
 			"IGroups": {
 				"properties": {
 					"nomeGrupo": {
@@ -554,6 +586,41 @@
 										"$ref": "#/components/schemas/IGroups"
 									}
 								},
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
+			},
+			"Response__groups-Array_IGroups___": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"groups": {
+										"items": {
+											"$ref": "#/components/schemas/IGroups"
+										},
+										"type": "array"
+									}
+								},
+								"required": [
+									"groups"
+								],
 								"type": "object"
 							},
 							{}
@@ -847,6 +914,47 @@
 				}
 			}
 		},
+		"/stores/update/{id}": {
+			"patch": {
+				"operationId": "PatchStores",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__store-IStores__"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Stores"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IStores"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/groups/create": {
 			"post": {
 				"operationId": "PostGroup",
@@ -918,6 +1026,53 @@
 						}
 					}
 				}
+			}
+		},
+		"/groups/get": {
+			"get": {
+				"operationId": "GetGroups",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__groups-Array_IGroups___"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Groups"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nomeGrupo",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "codGrupo",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nomeResponsavel",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},
