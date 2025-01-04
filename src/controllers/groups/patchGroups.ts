@@ -7,6 +7,7 @@ import { Stores } from '../../models/stores'
 @Route('groups')
 @Tags("Groups")
 export class PatchGroups extends Controller {
+  
   @Patch("/patch/{id}")
   static async patchGroups(
     @Path() id: string,
@@ -31,10 +32,8 @@ export class PatchGroups extends Controller {
       }
   
       if (body.lojasVinculadas) {
-        // Obter os IDs das lojas antes da atualização
         const previousStoreIds = group.lojasVinculadas.map(store => store.id)
       
-        // Atualizar as lojas vinculadas no grupo
         group.lojasVinculadas = body.lojasVinculadas.length
           ? group.lojasVinculadas.concat(body.lojasVinculadas).reduce((acc, current) => {
               if (!acc.some(item => item.id === current.id)) {
@@ -44,13 +43,11 @@ export class PatchGroups extends Controller {
             }, [] as typeof group.lojasVinculadas)
           : []
       
-        // Obter os IDs das lojas após a atualização
+
         const currentStoreIds = group.lojasVinculadas.map(store => store.id)
       
-        // Identificar as lojas removidas
         const removedStoreIds = previousStoreIds.filter(id => !currentStoreIds.includes(id))
       
-        // Atualizar as lojas adicionando o grupo
         if (body.lojasVinculadas.length) {
           await Stores.updateMany(
             { _id: { $in: body.lojasVinculadas.map(store => store.id) } },
@@ -66,7 +63,6 @@ export class PatchGroups extends Controller {
           )
         }
       
-        // Remover o grupo das lojas que foram desvinculadas
         if (removedStoreIds.length || !body.lojasVinculadas.length) {
           await Stores.updateMany(
             { _id: { $in: removedStoreIds }},
