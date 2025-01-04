@@ -5,9 +5,7 @@
   "spec": {
     "outputDirectory": "./swagger",
     "specVersion": 3,
-    "basePath": "/",
-    "host": "localhost:3000",
-    "schemes": ["http"]
+    "basePath": "/"
   },
   "noImplicitAny": true,
   "defaultResponse": "Default response",
