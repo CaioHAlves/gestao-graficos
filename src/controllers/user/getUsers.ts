@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import { Funcao, IUser } from '../interfaces/user';
 import { SortOrder } from 'mongoose';
 import { Response } from '../interfaces/response';
+import { paginatorReturn } from '../../utils/paginatorReturn';
 
 type Item = Omit<IUser, "gruposVinculados" | "LojasVinculadas" | "ativo" | "responsavel">
 
@@ -54,20 +55,20 @@ export class GetUsers extends Controller {
 
     return User.find(filter).sort(sortObject)
       .then((users) => {
-        const pageApi = page || 1
-        const limitApi = limit || 10
-        const nextPage = limitApi * (pageApi - 1)
+        const list: Array<Item> = paginatorReturn<Item>({
+          array: users.map(user => ({
+            id: user.id,
+            emailAcesso: user.emailAcesso,
+            funcao: user.funcao as Funcao,
+            linkFoto: user.linkFoto || "",
+            nome: user.nome,
+            sobrenome: user.sobrenome
+          })),
+          page,
+          limit
+        })
   
-        const list: Array<Item> = users.map(user => ({
-          id: user.id,
-          emailAcesso: user.emailAcesso,
-          funcao: user.funcao as Funcao,
-          linkFoto: user.linkFoto || "",
-          nome: user.nome,
-          sobrenome: user.sobrenome
-        })).slice(nextPage, nextPage + limitApi)
-  
-        const totalPages = Math.ceil(list.length / limitApi)
+        const totalPages = Math.ceil(list.length / (limit || 10))
   
         return {
           items: list,

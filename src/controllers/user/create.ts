@@ -33,7 +33,7 @@ export class UserCreate extends Controller {
       .then((res) => {
         return {
           message: "Create",
-          code: 200,
+          code: 201,
           idUsuario: res.id
         }
       })

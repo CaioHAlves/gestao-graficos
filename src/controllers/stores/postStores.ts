@@ -11,6 +11,16 @@ export class PostStores extends Controller {
 
   @Post("/create")
   static async postStores(@Body() body: IStores): Promise<Response<{ id: string }>> {
+
+    const store = await Stores.findOne({ nomeLoja: body.nomeLoja, codLoja: body.codLoja })
+
+    if (store) {
+      return {
+        code: 422,
+        message: "Já existe uma loja com esse nome ou código informado"
+      }
+    }
+
     return Stores.create(body)
       .then(async storeCreated => {
 

@@ -24,7 +24,7 @@ router.get("/get", (req, res) => {
 
   const params = req.query as unknown as IParamsGetGroups
 
-  GetGroups.getGroups(params.nomeGrupo, params.codGrupo, params.nomeResponsavel)
+  GetGroups.getGroups(params.page, params.limit, params.nomeGrupo, params.codGrupo, params.nomeResponsavel)
     .then(group => res.status(group.code).json(group))
     .catch(err => res.status(err.code).json(err))
 })

@@ -44,5 +44,14 @@ export const Stores = mongoose.model(
       }],
       _id: false
     }
-  }, { timestamps: false, versionKey: false })
+  }, 
+  { 
+    timestamps: false, 
+    versionKey: false 
+  })
+  .set("toJSON", {
+    transform: (_, ret) => {
+      ret.id = ret._id
+    }
+  })
 )

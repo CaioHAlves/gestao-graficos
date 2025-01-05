@@ -54,5 +54,9 @@ export const User = mongoose.model(
     }
   },
   { timestamps: false, versionKey: false },
-  )
+  ).set("toJSON", {
+    transform: (_, ret) => {
+      ret.id = ret._id
+    }
+  })
 )

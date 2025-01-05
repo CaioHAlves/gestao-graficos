@@ -1,45 +1,44 @@
 import { Get, Controller, Route, Tags, Query } from 'tsoa'
-import { Groups } from '../../models/groups'
+import { Stores } from '../../models/stores'
 import { Response } from '../interfaces/response'
-import { IGroups } from '../interfaces/groups'
+import { IStores } from '../interfaces/stores'
 import { paginatorReturn } from '../../utils/paginatorReturn'
 
-@Route("groups")
-@Tags("Groups")
-export class GetGroups extends Controller {
+@Route("stores")
+@Tags("Stores")
+export class GetStores extends Controller {
   @Get("/get")
-  static async getGroups(
+  static async getStores(
     @Query() page?: number,
     @Query() limit?: number,
-    @Query() nomeGrupo?: string,
-    @Query() codGrupo?: string,
+    @Query() nomeLoja?: string,
+    @Query() codLoja?: string,
     @Query() nomeResponsavel?: string,
-  ):Promise<Response<{ groups: Array<IGroups> }>> {
+  ):Promise<Response<{ stores: Array<IStores> }>> {
 
     let filter: { [key: string]: any } = {}
 
-    if (nomeGrupo) {
-      filter["nomeGrupo"] = nomeGrupo
+    if (nomeLoja) {
+      filter["nomeLoja"] = nomeLoja
     }
-    if (codGrupo) {
-      filter["codGrupo"] = codGrupo
+    if (codLoja) {
+      filter["codLoja"] = codLoja
     }
     if (nomeResponsavel) {
       filter["responsavel.nome"] = nomeResponsavel
     }
 
-    return Groups.find(filter)
+    return Stores.find(filter)
       .then(res => {
-        console.log(res)
         return {
           code: 200,
-          groups: paginatorReturn({ array: res, page, limit })
+          stores: paginatorReturn({ array: res, page, limit })
         }
       })
       .catch((err) => {
         return {
           code: 404,
-          message: "Erro ao recuperar grupos",
+          message: "Erro ao recuperar lojas",
           error: err
         }
       })

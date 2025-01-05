@@ -11,6 +11,16 @@ export class PostGroup extends Controller {
 
   @Post("/create")
   static async postGroup(@Body() body: IGroups): Promise<Response<{ id: string }>> {
+
+    const group = await Groups.findOne({ nomeGrupo: body.nomeGrupo, codGrupo: body.codGrupo })
+
+    if (group) {
+      return {
+        code: 422,
+        message: "Já existe um grupo com esse nome ou código"
+      }
+    }
+
     return Groups.create(body)
       .then(async groupCreated => {
 

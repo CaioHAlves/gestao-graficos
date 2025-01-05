@@ -30,6 +30,10 @@ export class PatchGroups extends Controller {
           message: 'Grupo não encontrado'
         }
       }
+
+      group.codGrupo = body.codGrupo || group.codGrupo
+      group.nomeGrupo = body.nomeGrupo || group.nomeGrupo
+      group.responsavel = body.responsavel || group.responsavel
   
       if (body.lojasVinculadas) {
         const previousStoreIds = group.lojasVinculadas.map(store => store.id)
@@ -74,10 +78,6 @@ export class PatchGroups extends Controller {
           )
         }
       }
-
-      group.codGrupo = body.codGrupo || group.codGrupo
-      group.nomeGrupo = body.nomeGrupo || group.nomeGrupo
-      group.responsavel = body.responsavel || group.responsavel
 
       await group.save()
   

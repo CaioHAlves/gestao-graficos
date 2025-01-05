@@ -28,6 +28,10 @@ export class PatchStores extends Controller {
           }
         }
 
+        store.nomeLoja = body.nomeLoja || store.nomeLoja
+        store.codLoja = body.codLoja || store.codLoja
+        store.responsavel = body.responsavel || store.responsavel
+
         if (body.gruposVinculados) {
           const previousGroupIds = store.gruposVinculados.map(group => group.id)
 
@@ -72,10 +76,6 @@ export class PatchStores extends Controller {
             )
           }
         }
-
-        store.nomeLoja = body.nomeLoja || store.nomeLoja
-        store.codLoja = body.codLoja || store.codLoja
-        store.responsavel = body.responsavel || store.responsavel
 
         await store.save()
 
