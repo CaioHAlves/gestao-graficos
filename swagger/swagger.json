@@ -56,7 +56,7 @@
 						},
 						"type": "array"
 					},
-					"LojasVinculadas": {
+					"lojasVinculadas": {
 						"items": {
 							"type": "string"
 						},
@@ -72,7 +72,7 @@
 					"responsavel",
 					"sobrenome",
 					"gruposVinculados",
-					"LojasVinculadas"
+					"lojasVinculadas"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -132,6 +132,12 @@
 					},
 					"sobrenome": {
 						"type": "string"
+					},
+					"lojasVinculadas": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
 					}
 				},
 				"required": [
@@ -140,7 +146,8 @@
 					"funcao",
 					"linkFoto",
 					"nome",
-					"sobrenome"
+					"sobrenome",
+					"lojasVinculadas"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -240,7 +247,7 @@
 						},
 						"type": "array"
 					},
-					"LojasVinculadas": {
+					"lojasVinculadas": {
 						"items": {
 							"type": "string"
 						},
@@ -257,7 +264,7 @@
 					"responsavel",
 					"sobrenome",
 					"gruposVinculados",
-					"LojasVinculadas"
+					"lojasVinculadas"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -377,7 +384,7 @@
 						},
 						"type": "array"
 					},
-					"LojasVinculadas": {
+					"lojasVinculadas": {
 						"items": {
 							"type": "string"
 						},
@@ -391,7 +398,7 @@
 					"responsavel",
 					"sobrenome",
 					"gruposVinculados",
-					"LojasVinculadas"
+					"lojasVinculadas"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
@@ -502,6 +509,41 @@
 								},
 								"required": [
 									"store"
+								],
+								"type": "object"
+							},
+							{}
+						]
+					},
+					"code": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"code"
+				],
+				"type": "object"
+			},
+			"Response__stores-Array_IStores___": {
+				"properties": {
+					"error": {},
+					"data": {
+						"anyOf": [
+							{
+								"properties": {
+									"stores": {
+										"items": {
+											"$ref": "#/components/schemas/IStores"
+										},
+										"type": "array"
+									}
+								},
+								"required": [
+									"stores"
 								],
 								"type": "object"
 							},
@@ -953,6 +995,71 @@
 						}
 					}
 				}
+			}
+		},
+		"/stores/get": {
+			"get": {
+				"operationId": "GetStores",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Response__stores-Array_IStores___"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Stores"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nomeLoja",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "codLoja",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nomeResponsavel",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/groups/create": {

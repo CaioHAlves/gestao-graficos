@@ -17,7 +17,7 @@ export interface IUser {
   },
   sobrenome: string,
   gruposVinculados: string[],
-  LojasVinculadas: string[],
+  lojasVinculadas: string[],
 }
 export type ICreateUserRequest = Omit<IUser, 'ativo' | 'id' | 'linkFoto'>
 

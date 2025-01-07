@@ -62,7 +62,9 @@ export class GetUsers extends Controller {
             funcao: user.funcao as Funcao,
             linkFoto: user.linkFoto || "",
             nome: user.nome,
-            sobrenome: user.sobrenome
+            sobrenome: user.sobrenome,
+            lojasVinculadas: user.lojasVinculadas,
+            gruposVinculados: user.gruposVinculados
           })),
           page,
           limit

@@ -24,9 +24,7 @@ export class UserCreate extends Controller {
     const newUser = {
       ...body,
       linkFoto: "",
-      ativo: true,
-      gruposVinculados: [],
-      lojasVinculadas: []
+      ativo: true
     }
 
     return User.create(newUser)
